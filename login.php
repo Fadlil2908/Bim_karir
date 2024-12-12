@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirect sesuai role
             if ($user['role'] === 'admin') {
                 header("Location: admin_dashboard.php");
-            } elseif ($user['role'] === 'doctor') {
-                header("Location: dokterr_dashboard.php");
+            } elseif ($user['role'] === 'doctor') { // Konsisten dengan database
+                header("Location: dokter_dashboard.php");
             } elseif ($user['role'] === 'patient') {
                 header("Location: pasien_dashboard.php");
             }

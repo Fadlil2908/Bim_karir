@@ -15,7 +15,7 @@ session_start();
 <body class="hold-transition login-page" style="background-color: #e3f2fd;">
 <div class="container text-center">
     <h1 class="display-4 mt-5 mb-3">Selamat Datang di Poliklinik</h1>
-    <p class="lead">Silakan pilih tindakan Anda sebagai pasien, dokter, atau admin.</p>
+    <p class="lead">Silakan login atau daftar untuk role tertentu.</p>
 
     <div class="row justify-content-center">
         <!-- Tombol Register -->
@@ -24,33 +24,13 @@ session_start();
                 <i class="fas fa-user-injured"></i> Daftar Sebagai Pasien
             </a>
         </div>
-        <div class="col-md-4 mb-3">
-            <a href="register.php?role=doctor" class="btn btn-primary btn-lg btn-block">
-                <i class="fas fa-user-md"></i> Daftar Sebagai Dokter
-            </a>
-        </div>
-        <div class="col-md-4 mb-3">
-            <a href="register.php?role=admin" class="btn btn-primary btn-lg btn-block">
-                <i class="fas fa-user-shield"></i> Daftar Sebagai Admin
-            </a>
-        </div>
     </div>
 
     <div class="row justify-content-center">
         <!-- Tombol Login -->
         <div class="col-md-4 mb-3">
-            <a href="login.php?role=patient" class="btn btn-success btn-lg btn-block">
-                <i class="fas fa-sign-in-alt"></i> Login Sebagai Pasien
-            </a>
-        </div>
-        <div class="col-md-4 mb-3">
-            <a href="login.php?role=doctor" class="btn btn-success btn-lg btn-block">
-                <i class="fas fa-sign-in-alt"></i> Login Sebagai Dokter
-            </a>
-        </div>
-        <div class="col-md-4 mb-3">
-            <a href="login.php?role=admin" class="btn btn-success btn-lg btn-block">
-                <i class="fas fa-sign-in-alt"></i> Login Sebagai Admin
+            <a href="login.php" class="btn btn-success btn-lg btn-block">
+                <i class="fas fa-sign-in-alt"></i> Login
             </a>
         </div>
     </div>

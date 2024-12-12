@@ -22,16 +22,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_dokter'])) {
     $alamat = $_POST['alamat'];
     $no_hp = $_POST['no_hp'];
     $id_poli = $_POST['id_poli'];
+    $user_id = $_POST['user_id']; // Ambil user_id dari form
 
-    $stmt = $conn->prepare("INSERT INTO dokter (nama, alamat, no_hp, id_poli) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $nama, $alamat, $no_hp, $id_poli);
-
-    if ($stmt->execute()) {
-        $message = "Data dokter berhasil ditambahkan.";
+    // Validasi jika user_id sudah terkait
+    $check_user = $conn->prepare("SELECT id FROM dokter WHERE user_id = ?");
+    $check_user->bind_param("i", $user_id);
+    $check_user->execute();
+    $check_result = $check_user->get_result();
+    if ($check_result->num_rows > 0) {
+        $message = "User ini sudah terdaftar sebagai dokter.";
     } else {
-        $message = "Gagal menambahkan data dokter: " . $conn->error;
+        $stmt = $conn->prepare("INSERT INTO dokter (nama, alamat, no_hp, id_poli, user_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssii", $nama, $alamat, $no_hp, $id_poli, $user_id);
+
+        if ($stmt->execute()) {
+            $message = "Data dokter berhasil ditambahkan.";
+        } else {
+            $message = "Gagal menambahkan data dokter: " . $conn->error;
+        }
+        $stmt->close();
     }
-    $stmt->close();
 }
 
 // Menghapus data dokter
@@ -50,12 +60,20 @@ if (isset($_GET['delete_id'])) {
 }
 
 // Mengambil data dokter
-$dokter_result = $conn->query("SELECT dokter.id, dokter.nama, dokter.alamat, dokter.no_hp, poli.nama_poli 
-                               FROM dokter 
-                               LEFT JOIN poli ON dokter.id_poli = poli.id");
+$dokter_result = $conn->query("
+    SELECT 
+        dokter.id, dokter.nama, dokter.alamat, dokter.no_hp, poli.nama_poli, users.username 
+    FROM 
+        dokter 
+    LEFT JOIN poli ON dokter.id_poli = poli.id
+    LEFT JOIN users ON dokter.user_id = users.id
+");
 
 // Mengambil data poli untuk dropdown
 $poli_result = $conn->query("SELECT id, nama_poli FROM poli");
+
+// Mengambil data user untuk dropdown
+$user_result = $conn->query("SELECT id, username FROM users WHERE role = 'doctor' AND id NOT IN (SELECT user_id FROM dokter)");
 ?>
 
 <!DOCTYPE html>
@@ -168,6 +186,15 @@ $poli_result = $conn->query("SELECT id, nama_poli FROM poli");
                                     <?php endwhile; ?>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>User</label>
+                                <select name="user_id" class="form-control" required>
+                                    <option value="">Pilih User</option>
+                                    <?php while ($row = $user_result->fetch_assoc()): ?>
+                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['username']; ?></option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" name="add_dokter" class="btn btn-primary">Tambah Dokter</button>
@@ -188,6 +215,7 @@ $poli_result = $conn->query("SELECT id, nama_poli FROM poli");
                                     <th>Alamat</th>
                                     <th>No HP</th>
                                     <th>Poli</th>
+                                    <th>Username</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -198,6 +226,7 @@ $poli_result = $conn->query("SELECT id, nama_poli FROM poli");
                                         <td><?php echo $row['alamat']; ?></td>
                                         <td><?php echo $row['no_hp']; ?></td>
                                         <td><?php echo $row['nama_poli']; ?></td>
+                                        <td><?php echo $row['username']; ?></td>
                                         <td>
                                             <a href="edit_dokter.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <a href="manage_dokter.php?delete_id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>

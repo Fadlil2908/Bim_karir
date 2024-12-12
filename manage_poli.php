@@ -13,6 +13,21 @@ if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
 
+// Logika hapus data poli
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    $stmt = $conn->prepare("DELETE FROM poli WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    if ($stmt->execute()) {
+        $stmt->close();
+        $message = "Poli berhasil dihapus.";
+        header("Location: manage_poli.php?message=" . urlencode($message));
+        exit;
+    } else {
+        echo "Terjadi kesalahan saat menghapus data.";
+    }
+}
+
 // Proses tambah data poli
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_poli = $_POST['nama_poli'];
@@ -170,7 +185,7 @@ $result = $conn->query("SELECT * FROM poli");
                                         <td><?php echo htmlspecialchars($row['keterangan']); ?></td>
                                         <td>
                                             <a href="edit_poli.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="delete_poli.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus poli ini?');">Hapus</a>
+                                            <a href="manage_poli.php?action=delete&id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus poli ini?');">Hapus</a>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
