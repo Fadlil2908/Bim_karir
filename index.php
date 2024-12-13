@@ -18,10 +18,16 @@ session_start();
     <p class="lead">Silakan login atau daftar untuk role tertentu.</p>
 
     <div class="row justify-content-center">
-        <!-- Tombol Register -->
+        <!-- Tombol Register Pasien -->
         <div class="col-md-4 mb-3">
             <a href="register.php?role=patient" class="btn btn-primary btn-lg btn-block">
                 <i class="fas fa-user-injured"></i> Daftar Sebagai Pasien
+            </a>
+        </div>
+        <!-- Tombol Register Dokter -->
+        <div class="col-md-4 mb-3">
+            <a href="register.php?role=doctor" class="btn btn-info btn-lg btn-block">
+                <i class="fas fa-user-md"></i> Daftar Sebagai Dokter
             </a>
         </div>
     </div>
