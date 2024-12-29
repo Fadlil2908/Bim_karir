@@ -34,6 +34,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Dokter</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -60,9 +61,33 @@ $conn->close();
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <i class="nav-icon fas fa-user-md"></i>
+                        <a href="dokter_dashboard.php" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="update_dokter.php" class="nav-link">
+                            <i class="nav-icon fas fa-user-edit"></i>
+                            <p>Profil Dokter</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="input_jadwal.php" class="nav-link">
+                            <i class="nav-icon fas fa-calendar-alt"></i>
+                            <p>Jadwal Periksa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="periksa_pasien.php" class="nav-link">
+                            <i class="nav-icon fas fa-user-check"></i>
+                            <p>Periksa Pasien</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="riwayat_pasien.php" class="nav-link">
+                            <i class="nav-icon fas fa-history"></i>
+                            <p>Riwayat Pasien</p>
                         </a>
                     </li>
                 </ul>
@@ -72,12 +97,14 @@ $conn->close();
 
     <!-- Content Wrapper -->
     <div class="content-wrapper">
+        <!-- Content Header -->
         <div class="content-header">
             <div class="container-fluid">
                 <h1 class="m-0">Dashboard Dokter</h1>
             </div>
         </div>
 
+        <!-- Main Content -->
         <div class="content">
             <div class="container-fluid">
                 <div class="card">
@@ -99,6 +126,7 @@ $conn->close();
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 </body>
 </html>

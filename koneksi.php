@@ -2,7 +2,7 @@
 $host = "localhost"; // Server host
 $user = "root"; // Username MySQL
 $pass = ""; // Password MySQL
-$db = "karir2024"; // Nama database Anda
+$db = "karir"; // Nama database Anda
 
 $koneksi = mysqli_connect($host, $user, $pass, $db);
 
